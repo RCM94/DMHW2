@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class nodeWeight
+public class outflow
 {
     public static class Map extends Mapper<LongWritable, Text, IntWritable, IntWritable>
     {
@@ -32,8 +32,8 @@ public class nodeWeight
 		    {
 				String [] inLine = line.split("\t");
 				int outFlow = Integer.parseInt(inLine[inLine.length-1]);
-				weight.set(wloc);
-				outKey.set(Integer.parseInt(inLine[i]));
+				weight.set(outFlow);
+				outKey.set(Integer.parseInt(inLine[0]));
 				context.write(outKey,weight);
 		    }
 		}
@@ -67,7 +67,7 @@ public class nodeWeight
         job.setMapOutputKeyClass(IntWritable.class);
 	job.setMapOutputValueClass(IntWritable.class);
 	
-        job.setJarByClass(nodeWeight.class);
+        job.setJarByClass(outflow.class);
         job.setMapperClass(Map.class);
 	job.setReducerClass(Reduce.class);
 
