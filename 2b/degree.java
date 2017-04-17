@@ -23,7 +23,9 @@ public class degree
     {
         //private final static IntWritable one = new IntWritable(1);
         private IntWritable inKey = new IntWritable();
+        private IntWritable inVal = new IntWritable();
         private IntWritable outKey = new IntWritable();
+        private IntWritable outVal = new IntWritable();
 	
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException
 		{
@@ -33,9 +35,11 @@ public class degree
 		    {
 				String [] inLine = line.split("\t");
 				inKey.set(Integer.parseInt(inLine[0]));
+				inVal.set(0);
 				outKey.set(Integer.parseInt(inLine[1]));
-				context.write(inKey,0);
-				context.write(outKey,1);
+				outVal.set(1);
+				context.write(inKey,inVal);
+				context.write(outKey,outVal);
 		    }
 		}
 	}
@@ -49,8 +53,8 @@ public class degree
 	            throws IOException, InterruptedException
 	    {
 
-	    IntWritable out = 0;
-	    IntWritable in = 0;
+	    int out = 0;
+	    int in = 0;
 		for (IntWritable val : values)
 		{
 		    if (val.get() == 0)
@@ -62,7 +66,9 @@ public class degree
 		    	in++;
 		    }
 		}
-		Pair<IntWritable, IntWritable> value = new Pair<IntWritable, IntWritable>(in, out);
+		IntWritable [] value = new IntWritable[2];
+		IntWritable[0].set(in);
+		IntWritable[1].set(out);
 		context.write(key,value);
 	    }
     }
