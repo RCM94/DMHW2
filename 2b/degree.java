@@ -15,7 +15,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.apache.hadoop.hbase.util;
 
 public class degree
 {
@@ -45,7 +44,7 @@ public class degree
 	}
     
 
-    public static class Reduce extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable>
+    public static class Reduce extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable[]>
     {
         private IntWritable result = new IntWritable();
 
@@ -67,8 +66,8 @@ public class degree
 		    }
 		}
 		IntWritable [] value = new IntWritable[2];
-		IntWritable[0].set(in);
-		IntWritable[1].set(out);
+		value[0].set(in);
+		value[1].set(out);
 		context.write(key,value);
 	    }
     }
