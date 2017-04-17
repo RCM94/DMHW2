@@ -44,7 +44,7 @@ public class degree
 	}
     
 
-    public static class Reduce extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable[]>
+    public static class Reduce extends Reducer<IntWritable, IntWritable, IntWritable, Text>
     {
         private IntWritable result = new IntWritable();
 
@@ -65,10 +65,8 @@ public class degree
 		    	in++;
 		    }
 		}
-		IntWritable [] value = new IntWritable[2];
-		value[0].set(in);
-		value[1].set(out);
-		context.write(key,value);
+		String value = "[" +  in + "," + out + "]";
+		context.write(key, new Text(value));
 	    }
     }
 
